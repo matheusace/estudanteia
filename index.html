@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light" data-palette="caderno" data-radius="rounded" data-texture="paper">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="EstudoIA — Caderno digital e laboratório de estudo ativo com Inteligência Artificial e Método Socrático. Feito por estudantes para ajudar você a aprender de verdade." />
+  <title>EstudoIA — Estudo Ativo, Método Socrático e Senso Crítico</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Cabeçalho -->
+  <header class="topbar" id="topo">
+    <div class="container topbar-inner">
+      <a href="#inicio" class="brand" aria-label="EstudoIA - Voltar ao início">
+        <span class="brand-mark" aria-hidden="true">e/IA</span>
+        <div class="brand-text">
+          <strong>EstudoIA</strong>
+          <small>caderno de estudo ativo</small>
+        </div>
+      </a>
+
+      <nav class="nav-links" id="navLinks" aria-label="Navegação principal">
+        <a href="#metodo">O Método</a>
+        <a href="#prompts">Prompts</a>
+        <a href="#simulador">Na Prática</a>
+        <a href="#estacao">Mesa de Estudo</a>
+        <a href="#anti-erro">Caça-Erros</a>
+        <a href="#habitos">Autoavaliação</a>
+        <a href="#sobre">Quem Fez</a>
+      </nav>
+
+      <div class="topbar-actions">
+        <button type="button" class="customize-trigger" id="openCustomizerBtn" aria-label="Personalizar cores e estilo do site" title="Personalizar aparência">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+          <span>Personalizar</span>
+        </button>
+
+        <button type="button" class="icon-btn" id="themeToggle" aria-label="Alternar entre modo claro e escuro" title="Alternar claro/escuro">
+          <svg id="iconSun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg id="iconMoon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+
+        <button type="button" class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Gaveta Lateral de Personalização -->
+  <div class="customizer-backdrop" id="customizerBackdrop" hidden></div>
+  <aside class="customizer-drawer" id="customizerDrawer" aria-label="Personalizar aparência do EstudoIA" aria-hidden="true">
+    <div class="drawer-header">
+      <div>
+        <strong>Deixe com a sua cara</strong>
+        <small>Suas escolhas ficam salvas neste navegador</small>
+      </div>
+      <button type="button" class="icon-btn" id="closeCustomizerBtn" aria-label="Fechar painel">✕</button>
+    </div>
+
+    <div class="drawer-body">
+      <div class="custom-group">
+        <label class="custom-label">Iluminação da tela</label>
+        <div class="mode-toggle-grid">
+          <button type="button" class="mode-option-btn active" data-theme-choice="light">Papel Claro</button>
+          <button type="button" class="mode-option-btn" data-theme-choice="dark">Estudo Noturno</button>
+        </div>
+      </div>
+
+      <div class="custom-group">
+        <label class="custom-label">Paleta de cores</label>
+        <div class="palette-grid" id="paletteGrid">
+          <button type="button" class="palette-btn active" data-palette-choice="caderno">
+            <span class="swatch-pair"><i style="background:#3b49df"></i><i style="background:#0ea5e9"></i></span>
+            <span>Caneta Azul</span>
+          </button>
+          <button type="button" class="palette-btn" data-palette-choice="marcador">
+            <span class="swatch-pair"><i style="background:#e85d04"></i><i style="background:#f43f5e"></i></span>
+            <span>Marca-Texto</span>
+          </button>
+          <button type="button" class="palette-btn" data-palette-choice="botanica">
+            <span class="swatch-pair"><i style="background:#15803d"></i><i style="background:#65a30d"></i></span>
+            <span>Folha Verde</span>
+          </button>
+          <button type="button" class="palette-btn" data-palette-choice="noturno">
+            <span class="swatch-pair"><i style="background:#6d28d9"></i><i style="background:#db2777"></i></span>
+            <span>Uva &amp; Rosa</span>
+          </button>
+          <button type="button" class="palette-btn" data-palette-choice="oceano">
+            <span class="swatch-pair"><i style="background:#0369a1"></i><i style="background:#d97706"></i></span>
+            <span>Oceano &amp; Ocre</span>
+          </button>
+          <button type="button" class="palette-btn" data-palette-choice="terracota">
+            <span class="swatch-pair"><i style="background:#b45309"></i><i style="background:#0d9488"></i></span>
+            <span>Terracota</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="custom-group">
+        <label class="custom-label">Textura de fundo</label>
+        <div class="mode-toggle-grid">
+          <button type="button" class="texture-btn active" data-texture-choice="paper">Caderno Pontilhado</button>
+          <button type="button" class="texture-btn" data-texture-choice="clean">Liso Minimalista</button>
+        </div>
+      </div>
+
+      <div class="custom-group">
+        <label class="custom-label">Tamanho da letra</label>
+        <div class="font-size-grid">
+          <button type="button" class="size-btn" data-font-size="94">94%</button>
+          <button type="button" class="size-btn active" data-font-size="100">100%</button>
+          <button type="button" class="size-btn" data-font-size="108">108%</button>
+          <button type="button" class="size-btn" data-font-size="115">115%</button>
+        </div>
+      </div>
+
+      <div class="custom-group">
+        <label class="custom-label">Formato dos blocos</label>
+        <div class="mode-toggle-grid">
+          <button type="button" class="radius-btn active" data-radius-choice="rounded">Suave</button>
+          <button type="button" class="radius-btn" data-radius-choice="sharp">Caderno Reto</button>
+        </div>
+      </div>
+
+      <div class="drawer-footer">
+        <button type="button" class="btn btn-outline btn-sm" id="resetCustomBtn" style="width:100%;">Voltar ao visual original</button>
+      </div>
+    </div>
+  </aside>
+
+  <main>
+    <!-- Hero Editorial & Prático -->
+    <section class="hero" id="inicio">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="hero-kicker">
+            <span class="dot-live" aria-hidden="true"></span>
+            Projeto estudantil aberto • Método Socrático na prática
+          </div>
+
+          <h1>Use a IA para <span class="marker-highlight">destravar seu raciocínio</span>, não para fazer a lição no seu lugar.</h1>
+
+          <p class="hero-lead">
+            A gente sabe como funciona: você joga uma questão no chat, recebe um textão pronto em três segundos, acha que entendeu tudo — e na hora da prova em branco não lembra nem por onde começar. O <strong>EstudoIA</strong> nasceu para virar esse jogo com prompts que obrigam a IA a te ensinar passo a passo.
+          </p>
+
+          <div class="hero-cta">
+            <a href="#prompts" class="btn btn-primary">Montar meu prompt agora</a>
+            <a href="#simulador" class="btn btn-secondary">Ver conversa na prática</a>
+          </div>
+
+          <div class="hero-notes">
+            <div class="note-pill">
+              <strong>Sem resposta pronta</strong>
+              <span>Travas para a IA te guiar com perguntas</span>
+            </div>
+            <div class="note-pill">
+              <strong>16 modelos testados</strong>
+              <span>Exatas, Humanas, Redação e Idiomas</span>
+            </div>
+            <div class="note-pill">
+              <strong>Direto no navegador</strong>
+              <span>Sem login, sem anúncio e salva suas notas</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cartão Interativo: Raio-X de um Prompt -->
+        <aside class="xray-card" aria-label="Comparação prática entre pedir resposta pronta e pedir tutoria socrática">
+          <div class="xray-top">
+            <span class="xray-tag">Raio-X do Estudo</span>
+            <div class="xray-tabs" role="tablist">
+              <button type="button" class="xray-tab active" data-xray="socratico" role="tab" aria-selected="true">Jeito EstudoIA</button>
+              <button type="button" class="xray-tab" data-xray="passivo" role="tab" aria-selected="false">Jeito "Copia e Cola"</button>
+            </div>
+          </div>
+
+          <div class="xray-body" id="xrayContent">
+            <div class="xray-prompt">
+              <span class="xray-label">O que você manda para a IA:</span>
+              <p>"Estou estudando Revolução Industrial e confundo as fases. Não me dê um resumo pronto: me explique a 1ª fase em 3 linhas e me faça 2 perguntas rápidas para ver se eu peguei a ideia antes de seguir."</p>
+            </div>
+            <div class="xray-effect good">
+              <span class="xray-label">O que acontece no seu cérebro:</span>
+              <ul>
+                <li>Você lê pouco texto de cada vez e realmente processa a informação.</li>
+                <li>Precisa formular uma resposta com suas palavras antes de avançar.</li>
+                <li>Se errar, descobre a dúvida na hora — não no dia da prova.</li>
+              </ul>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Seção 1: O Método em 4 Etapas -->
+    <section class="section" id="metodo">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-index">01 / COMO ESTUDAR</span>
+          <h2>Um roteiro simples para não virar refém do chat</h2>
+          <p>Inspirado no <strong>Método Socrático</strong> — em que o professor conduz o aluno fazendo boas perguntas em vez de entregar o gabarito —, dividimos a sessão de estudo em quatro momentos claros.</p>
+        </div>
+
+        <div class="steps-grid">
+          <article class="step-card step-1">
+            <div class="step-head">
+              <span class="step-num">01</span>
+              <span class="step-tag">Antes de abrir a aba</span>
+            </div>
+            <h3>Saiba exatamente onde travou</h3>
+            <p>Não abra o chat dizendo "me ensina Física". Leia o enunciado ou o capítulo primeiro e identifique o ponto exato: <em>"não entendi como montar a equação"</em> ou <em>"não sei diferenciar esses dois conceitos"</em>.</p>
+            <div class="step-foot">Foco real: 2 minutos de leitura prévia</div>
+          </article>
+
+          <article class="step-card step-2">
+            <div class="step-head">
+              <span class="step-num">02</span>
+              <span class="step-tag">Núcleo do EstudoIA</span>
+            </div>
+            <h3>Ative a trava socrática</h3>
+            <p>Use um comando que proíbe a IA de resolver o exercício inteiro. Ela explica só o primeiro degrau, pede para você tentar o próximo passo e só libera a continuação depois da sua tentativa.</p>
+            <div class="step-foot">Você pensa antes de ver o resultado</div>
+          </article>
+
+          <article class="step-card step-3">
+            <div class="step-head">
+              <span class="step-num">03</span>
+              <span class="step-tag">Senso crítico</span>
+            </div>
+            <h3>Desconfie e confira os fatos</h3>
+            <p>Modelos de linguagem erram sinal de conta, trocam autores de livros e inventam citações com a maior naturalidade. Bata datas, fórmulas e conceitos com seu caderno ou livro didático.</p>
+            <div class="step-foot">Zero confiança cega na tela</div>
+          </article>
+
+          <article class="step-card step-4">
+            <div class="step-head">
+              <span class="step-num">04</span>
+              <span class="step-tag">Sem olhar a tela</span>
+            </div>
+            <h3>Feche o chat e escreva do zero</h3>
+            <p>A prova real de que você aprendeu é conseguir explicar o assunto com suas palavras sem consultar nada. Use o caderno aqui embaixo ou uma folha de papel para fixar de vez.</p>
+            <div class="step-foot">Técnica Feynman aplicada</div>
+          </article>
+        </div>
+
+        <!-- As 4 Regras dentro dos Prompts -->
+        <div class="rules-panel">
+          <div class="rules-intro">
+            <h3>Por que os prompts daqui funcionam melhor que pedir "me ajude"?</h3>
+            <p>Por padrão, toda IA foi treinada para agradar entregando a resposta mais rápida possível. Nossos comandos colocam quatro freios na conversa:</p>
+          </div>
+
+          <div class="rules-list">
+            <div class="rule-box">
+              <span class="rule-step">Regra A</span>
+              <strong>Proibição de gabarito imediato</strong>
+              <p>Mesmo que o enunciado peça o valor final, a instrução bloqueia o cálculo completo na primeira resposta.</p>
+            </div>
+            <div class="rule-box">
+              <span class="rule-step">Regra B</span>
+              <strong>Diagnóstico antes da aula</strong>
+              <p>A IA primeiro pergunta o que você já sabe ou quais dados conseguiu tirar do problema.</p>
+            </div>
+            <div class="rule-box">
+              <span class="rule-step">Regra C</span>
+              <strong>Blocos curtos e uma pergunta por vez</strong>
+              <p>Nada de paredes de texto. Explicação direta em poucas linhas seguida de uma checagem rápida.</p>
+            </div>
+            <div class="rule-box">
+              <span class="rule-step">Regra D</span>
+              <strong>Pista no erro, não bronca nem cola</strong>
+              <p>Se você errar o caminho, ela mostra onde o raciocínio desviou e deixa você tentar corrigir.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção 2: Gerador + Biblioteca de 16 Prompts -->
+    <section class="section section-alt" id="prompts">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-index">02 / LABORATÓRIO DE PROMPTS</span>
+          <h2>Monte seu comando ou escolha um pronto</h2>
+          <p>Ajuste a matéria, o nível e o jeito que você quer estudar. Depois é só copiar e colar no Gemini, ChatGPT, Claude ou Copilot.</p>
+        </div>
+
+        <!-- Gerador Personalizado -->
+        <div class="generator-card">
+          <div class="generator-top">
+            <div>
+              <h3>Montador de Prompt Socrático</h3>
+              <p>Preencha os campos abaixo — o texto do comando muda automaticamente em tempo real.</p>
+            </div>
+            <button type="button" class="btn btn-outline btn-sm" id="saveCustomPromptBtn">Salvar nos meus favoritos</button>
+          </div>
+
+          <form class="generator-form" id="promptGeneratorForm">
+            <div class="form-group">
+              <label for="genSubject">Matéria</label>
+              <select id="genSubject">
+                <option value="Matemática">Matemática</option>
+                <option value="Física">Física</option>
+                <option value="Química">Química</option>
+                <option value="Biologia">Biologia</option>
+                <option value="História">História</option>
+                <option value="Geografia">Geografia</option>
+                <option value="Português e Literatura">Português e Literatura</option>
+                <option value="Redação (ENEM / Vestibular)">Redação (ENEM / Vestibular)</option>
+                <option value="Filosofia e Sociologia">Filosofia e Sociologia</option>
+                <option value="Inglês / Espanhol">Inglês / Espanhol</option>
+                <option value="Lógica e Programação">Lógica e Programação</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="genLevel">Onde você está estudando</label>
+              <select id="genLevel">
+                <option value="Ensino Médio">Ensino Médio</option>
+                <option value="ENEM e Vestibulares (FUVEST, UNESP, FATEC)">ENEM e Vestibulares (FUVEST, UNESP, FATEC)</option>
+                <option value="Ensino Fundamental">Ensino Fundamental</option>
+                <option value="Curso Técnico / Faculdade">Curso Técnico / Faculdade</option>
+                <option value="Concursos Públicos">Concursos Públicos</option>
+                <option value="Estudo por conta própria">Estudo por conta própria</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="genGoal">O que você precisa agora</label>
+              <select id="genGoal">
+                <option value="socratico">Entender um assunto do zero (passo a passo)</option>
+                <option value="calculo">Destravar uma questão sem receber a resposta</option>
+                <option value="erro_conta">Descobrir onde errei na minha resolução</option>
+                <option value="questoes">Treinar questões inéditas (gabarito escondido)</option>
+                <option value="feynman">Testar o que aprendi (Técnica Feynman)</option>
+                <option value="redacao">Revisar minha redação sem reescrever por mim</option>
+                <option value="revisao">Montar revisão rápida antes da prova</option>
+              </select>
+            </div>
+
+            <div class="form-group form-span-2">
+              <label for="genTopic">Tema da matéria ou enunciado da questão</label>
+              <input type="text" id="genTopic" placeholder="Ex: Função quadrática, Era Vargas, Estequiometria, Uso da crase..." />
+            </div>
+
+            <div class="form-group">
+              <label for="genTone">Jeito de explicar</label>
+              <select id="genTone">
+                <option value="paciente">Didático, calmo e com exemplos simples</option>
+                <option value="direto">Curto, direto ao ponto e sem enrolação</option>
+                <option value="banca">Rigoroso, cobrando detalhes de prova</option>
+              </select>
+            </div>
+          </form>
+
+          <div class="generator-output">
+            <div class="output-bar">
+              <span class="output-status">Comando pronto para copiar e colar:</span>
+              <div class="output-btns">
+                <button type="button" class="btn btn-primary btn-sm" id="copyGeneratedBtn">Copiar comando</button>
+                <a href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">Abrir Gemini ↗</a>
+                <a href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">Abrir ChatGPT ↗</a>
+                <a href="https://claude.ai/" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">Abrir Claude ↗</a>
+              </div>
+            </div>
+            <pre id="generatedPromptText" class="prompt-preview"></pre>
+          </div>
+        </div>
+
+        <!-- Filtros da Biblioteca -->
+        <div class="library-header">
+          <div>
+            <h3>Biblioteca de Comandos Prontos (16 modelos)</h3>
+            <p>Filtre por situação de estudo ou pesquise uma palavra-chave.</p>
+          </div>
+          <div class="search-wrap">
+            <input type="search" id="promptSearch" placeholder="Buscar por tema (ex: Bhaskara, crase, simulado, inglês...)" aria-label="Buscar comandos na biblioteca" />
+          </div>
+        </div>
+
+        <div class="filter-pills" id="categoryFilters" role="group" aria-label="Filtrar por categoria">
+          <button type="button" class="pill active" data-filter="todos">Todos (16)</button>
+          <button type="button" class="pill" data-filter="socratico">Entender Matéria</button>
+          <button type="button" class="pill" data-filter="exatas">Exatas &amp; Cálculos</button>
+          <button type="button" class="pill" data-filter="questoes">Questões &amp; Simulados</button>
+          <button type="button" class="pill" data-filter="redacao">Redação</button>
+          <button type="button" class="pill" data-filter="revisao">Revisão &amp; Memória</button>
+          <button type="button" class="pill" data-filter="idiomas">Idiomas &amp; Leitura</button>
+          <button type="button" class="pill" data-filter="favoritos">Meus Favoritos (<span id="favCount">0</span>)</button>
+        </div>
+
+        <div class="prompts-grid" id="promptsGrid"></div>
+      </div>
+    </section>
+
+    <!-- Seção 3: Simulador de Conversa Socrática -->
+    <section class="section" id="simulador">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-index">03 / NA PRÁTICA</span>
+          <h2>Veja como uma conversa socrática acontece</h2>
+          <p>Escolha uma disciplina abaixo e clique para avançar turno por turno. Repare como a IA nunca entrega a resposta de bandeja — ela faz você chegar lá.</p>
+        </div>
+
+        <div class="sim-wrapper">
+          <div class="sim-sidebar">
+            <h3>Escolha um exemplo real:</h3>
+            <button type="button" class="scenario-btn active" data-scenario="fisica">
+              <strong>Física • Velocidade Média</strong>
+              <span>Deduzindo a fórmula pelo raciocínio</span>
+            </button>
+            <button type="button" class="scenario-btn" data-scenario="matematica">
+              <strong>Matemática • Equação do 2º Grau</strong>
+              <span>Atenção aos sinais antes de jogar na fórmula</span>
+            </button>
+            <button type="button" class="scenario-btn" data-scenario="historia">
+              <strong>História • Revolução Industrial</strong>
+              <span>Quando o aluno erra e a IA dá uma pista</span>
+            </button>
+            <button type="button" class="scenario-btn" data-scenario="quimica">
+              <strong>Química • Balanceamento Simples</strong>
+              <span>Contando átomos passo a passo</span>
+            </button>
+            <button type="button" class="scenario-btn" data-scenario="redacao">
+              <strong>Redação ENEM • Tese Vaga</strong>
+              <span>Melhorando o argumento sem plágio</span>
+            </button>
+          </div>
+
+          <div class="sim-chat-box">
+            <div class="sim-chat-header">
+              <div>
+                <strong id="simTitle">Física — Velocidade Média</strong>
+                <small id="simStepIndicator">Turno 2 de 6</small>
+              </div>
+              <button type="button" class="btn btn-outline btn-sm" id="simResetBtn">Reiniciar conversa</button>
+            </div>
+
+            <div class="sim-messages" id="simMessages" aria-live="polite"></div>
+
+            <div class="sim-controls">
+              <span class="sim-hint-text">Clique para ver a próxima resposta da conversa</span>
+              <button type="button" class="btn btn-primary" id="simNextBtn">Próxima mensagem →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção 4: Mesa de Estudo (Pomodoro + Caderno Feynman) -->
+    <section class="section section-alt" id="estacao">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-index">04 / MESA DE ESTUDO</span>
+          <h2>Cronômetro de Foco + Folha Feynman</h2>
+          <p>Estude em blocos curtos sem distração e, quando o tempo acabar, feche a aba da IA e escreva aqui tudo o que você lembra com suas próprias palavras.</p>
+        </div>
+
+        <div class="station-grid">
+          <!-- Timer Pomodoro -->
+          <div class="station-card timer-card">
+            <div class="station-head">
+              <h3>Bloco de Foco</h3>
+              <span class="cycle-badge" id="pomodoroCycles">0 blocos feitos hoje</span>
+            </div>
+
+            <div class="focus-goal-wrap">
+              <label for="focusTaskInput" class="sr-only">O que você vai estudar neste bloco?</label>
+              <input type="text" id="focusTaskInput" class="focus-task-input" placeholder="Meta deste bloco (ex: 5 exercícios de Logaritmo)" />
+            </div>
+
+            <div class="timer-modes" role="group" aria-label="Duração do cronômetro">
+              <button type="button" class="tmode-btn active" data-minutes="25" data-label="Foco Total">25 min foco</button>
+              <button type="button" class="tmode-btn" data-minutes="5" data-label="Pausa Curta">5 min pausa</button>
+              <button type="button" class="tmode-btn" data-minutes="15" data-label="Descanso Maior">15 min descanso</button>
+            </div>
+
+            <div class="timer-display-wrap">
+              <span class="timer-status-label" id="timerModeLabel">Foco Total</span>
+              <div class="timer-digits" id="timerDisplay">25:00</div>
+            </div>
+
+            <div class="timer-actions">
+              <button type="button" class="btn btn-primary" id="timerStartBtn">Iniciar</button>
+              <button type="button" class="btn btn-secondary" id="timerPauseBtn" disabled>Pausar</button>
+              <button type="button" class="btn btn-outline" id="timerResetBtn">Zerar</button>
+            </div>
+          </div>
+
+          <!-- Caderno Feynman -->
+          <div class="station-card notes-card">
+            <div class="station-head">
+              <h3>Folha de Consolidação (Sem Olhar o Chat)</h3>
+              <span class="save-indicator" id="noteSaveStatus">Salvo no navegador</span>
+            </div>
+            <p class="card-sub">Explique a matéria como se estivesse ensinando um amigo da sala. Onde você travar é exatamente o ponto que precisa revisar.</p>
+
+            <input type="text" id="noteTopicInput" class="note-title-input" placeholder="Assunto da folha (ex: Resumo de Eletrodinâmica)" aria-label="Assunto do resumo" />
+
+            <textarea id="noteContentInput" class="note-textarea" rows="7" placeholder="Comece escrevendo com suas palavras: O que é esse tema? Como funciona na prática? Qual fórmula ou regra não posso esquecer?"></textarea>
+
+            <div class="notes-footer">
+              <span class="word-count" id="noteWordCount">0 palavras</span>
+              <div class="notes-btns">
+                <button type="button" class="btn btn-outline btn-sm" id="clearNoteBtn">Limpar folha</button>
+                <button type="button" class="btn btn-outline btn-sm" id="copyNoteBtn">Copiar texto</button>
+                <button type="button" class="btn btn-primary btn-sm" id="downloadNoteBtn">Baixar .TXT</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção 5: Guia Anti-Erro & Desafio Caça-Alucinações -->
+    <section class="section" id="anti-erro">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-index">05 / SENSO CRÍTICO</span>
+          <h2>Não caia nas "alucinações" da IA</h2>
+          <p>Uma IA nunca diz "não sei" — quando não tem certeza, ela inventa um dado convincente. Use o checklist abaixo e teste seu faro em 10 exemplos reais.</p>
+        </div>
+
+        <div class="anti-error-grid">
+          <!-- Checklist -->
+          <div class="checklist-card">
+            <h3>Checklist de 4 Checagens</h3>
+            <p class="card-sub">Antes de levar qualquer resposta para o caderno ou trabalho:</p>
+
+            <label class="check-item">
+              <input type="checkbox" class="verify-check" />
+              <div>
+                <strong>1. Bater com o livro didático ou apostila</strong>
+                <span>Datas, nomes de tratados, fórmulas e definições científicas precisam coincidir com o material oficial.</span>
+              </div>
+            </label>
+
+            <label class="check-item">
+              <input type="checkbox" class="verify-check" />
+              <div>
+                <strong>2. Conferir linha por linha das contas</strong>
+                <span>IAs erram multiplicações e sinais negativos no meio de equações longas. Refaça a conta na mão.</span>
+              </div>
+            </label>
+
+            <label class="check-item">
+              <input type="checkbox" class="verify-check" />
+              <div>
+                <strong>3. Desconfiar de citações prontas para redação</strong>
+                <span>Muitas vezes o chat atribui frases inventadas a filósofos famosos. Só use repertório que você realmente conhece.</span>
+              </div>
+            </label>
+
+            <label class="check-item">
+              <input type="checkbox" class="verify-check" />
+              <div>
+                <strong>4. Confirmar em uma segunda fonte</strong>
+                <span>Para pesquisas e seminários, cheque o dado em portais educacionais, enciclopédias ou artigos confiáveis.</span>
+              </div>
+            </label>
+
+            <div class="checklist-status" id="checklistStatus">
+              0 de 4 checagens marcadas agora.
+            </div>
+          </div>
+
+          <!-- Quiz de 10 Questões -->
+          <div class="quiz-card">
+            <div class="quiz-top">
+              <h3>Desafio Caça-Erros (10 rodadas)</h3>
+              <span class="quiz-score" id="quizScore">Acertos: 0 / 10</span>
+            </div>
+            <p class="card-sub">Leia o trecho gerado por uma IA e julgue: está tudo certo ou tem pegadinha escondida?</p>
+
+            <div class="quiz-prompt-box">
+              <span class="quiz-subject-tag" id="quizSubject">História do Brasil</span>
+              <p class="quiz-statement" id="quizStatement"></p>
+            </div>
+
+            <div class="quiz-buttons">
+              <button type="button" class="btn btn-outline quiz-choice" data-answer="true">Está correto</button>
+              <button type="button" class="btn btn-outline quiz-choice" data-answer="false">Tem erro / invenção</button>
+            </div>
+
+            <div class="quiz-feedback" id="quizFeedback" style="display:none;"></div>
+
+            <div class="quiz-nav">
+              <span id="quizProgress">Rodada 1 de 10</span>
+              <button type="button" class="btn btn-primary btn-sm" id="quizNextBtn" style="display:none;">Próxima rodada →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção 6: Autoavaliação de Hábito + Comparativo Honesto -->
+    <section class="section section-alt" id="habitos">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-index">06 / AUTOAVALIAÇÃO</span>
+          <h2>Como está o seu jeito de estudar com IA?</h2>
+          <p>Em vez de números inventados, faça um teste honesto dos seus hábitos na última semana e veja o contraste entre usar a IA como muleta ou como ferramenta.</p>
+        </div>
+
+        <div class="habits-grid">
+          <!-- Termômetro Interativo do Estudante -->
+          <div class="habit-checker-card">
+            <h3>Termômetro de Estudo Ativo</h3>
+            <p class="card-sub">Marque o que você realmente costuma fazer quando estuda usando IA:</p>
+
+            <label class="habit-option">
+              <input type="checkbox" class="habit-check" data-points="2" />
+              <span>Tento ler o enunciado e pensar por pelo menos 2 minutos antes de abrir o chat.</span>
+            </label>
+
+            <label class="habit-option">
+              <input type="checkbox" class="habit-check" data-points="2" />
+              <span>Peço para a IA explicar por etapas e me fazer perguntas em vez de dar o resultado direto.</span>
+            </label>
+
+            <label class="habit-option">
+              <input type="checkbox" class="habit-check" data-points="2" />
+              <span>Refaço os cálculos no papel e confiro fórmulas ou datas no meu caderno.</span>
+            </label>
+
+            <label class="habit-option">
+              <input type="checkbox" class="habit-check" data-points="2" />
+              <span>Quando treino redação, peço apontamentos de melhoria mas escrevo cada frase sozinho.</span>
+            </label>
+
+            <label class="habit-option">
+              <input type="checkbox" class="habit-check" data-points="2" />
+              <span>Fecho a aba do chat no final e tento resumir o conteúdo sem consultar a tela.</span>
+            </label>
+
+            <div class="habit-result-box" id="habitResultBox">
+              <div class="habit-score-row">
+                <strong id="habitScoreTitle">Marque os hábitos acima para ver seu diagnóstico</strong>
+                <span class="habit-badge" id="habitScoreBadge">0 / 10 pts</span>
+              </div>
+              <p id="habitScoreAdvice">Cada hábito marcado mostra que você está no controle da ferramenta, e não o contrário.</p>
+            </div>
+          </div>
+
+          <!-- Comparativo Direto -->
+          <div class="contrast-stack">
+            <div class="contrast-card good">
+              <span class="contrast-label">Quando a IA vira aliada</span>
+              <h3>Estudo Guiado (Método EstudoIA)</h3>
+              <ul>
+                <li><strong>Desbloqueia matérias travadas:</strong> transforma capítulos densos em perguntas pequenas que você consegue responder.</li>
+                <li><strong>Treino infinito de questões:</strong> gera exercícios parecidos com os da sua prova e comenta o porquê de cada alternativa.</li>
+                <li><strong>Revisão dos seus próprios erros:</strong> você mostra onde errou e entende a lógica por trás da correção.</li>
+                <li><strong>Autonomia no dia da prova:</strong> como foi você quem raciocinou, o conteúdo fica na memória sem precisar de internet.</li>
+              </ul>
+            </div>
+
+            <div class="contrast-card bad">
+              <span class="contrast-label">Quando a IA te sabota</span>
+              <h3>Atalho Passivo ("Copia e Cola")</h3>
+              <ul>
+                <li><strong>Falsa sensação de domínio:</strong> ler uma resposta bem escrita dá a impressão de que você sabe, até tentar fazer sozinho.</li>
+                <li><strong>Atrofia da escrita própria:</strong> mandar o chat redigir textos tira sua prática de argumentar e conectar ideias.</li>
+                <li><strong>Notas perdidas por alucinação:</strong> copiar datas, leis ou contas sem checar gera erros bobos em trabalhos e provas.</li>
+                <li><strong>Branco total sem tela:</strong> na carteira da escola ou no vestibular, não existe aba de chat para pedir ajuda.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção 7: Quem Fez & Compromisso Socioambiental -->
+    <section class="section" id="sobre">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-index">07 / DIÁRIO DO PROJETO</span>
+          <h2>Por que a gente construiu o EstudoIA</h2>
+          <p>Uma ferramenta feita de estudantes para estudantes, pensada para rodar leve em qualquer celular ou computador.</p>
+        </div>
+
+        <div class="about-grid">
+          <div class="story-card">
+            <h3>Da sala de aula para o navegador</h3>
+            <p>
+              O <strong>EstudoIA</strong> nasceu da observação do nosso próprio dia a dia estudando. A gente via muita gente usando Inteligência Artificial o tempo todo — mas quase sempre do jeito que menos ajuda: colando enunciados inteiros para entregar tarefa rápido e depois sofrendo na hora da prova escrita.
+            </p>
+            <p>
+              Nós — <strong>Matheus Godoy, Leonardo Bueno e Kauã Eduardo</strong> — decidimos reunir em um só lugar os prompts socráticos que realmente funcionavam nos nossos estudos, junto com um simulador de diálogo, um cronômetro de foco, uma folha Feynman e um treino contra erros da própria IA.
+            </p>
+            <p>
+              Tudo aqui funciona direto no seu navegador, sem pedir cadastro, sem coletar dados pessoais e sem depender de servidores pesados. Suas anotações, favoritos e cores escolhidas ficam guardados localmente no seu aparelho.
+            </p>
+
+            <div class="eco-note">
+              <strong>Estudo digital e consciência ambiental:</strong>
+              <p>Incentivar resumos digitais organizados, reutilizáveis e leves reduz impressões descartáveis e consumo desnecessário de papel no cotidiano escolar, dialogando com os princípios da <strong>Política Nacional de Resíduos Sólidos (Lei nº 12.305/2010)</strong>.</p>
+            </div>
+          </div>
+
+          <div class="ods-column">
+            <div class="ods-grid">
+              <article class="ods-card ods-4">
+                <span class="ods-num">ODS 4 • ONU</span>
+                <h4>Educação de Qualidade</h4>
+                <p>Incentiva aprendizagem ativa, leitura crítica e autonomia intelectual no uso de novas tecnologias.</p>
+              </article>
+
+              <article class="ods-card ods-9">
+                <span class="ods-num">ODS 9 • ONU</span>
+                <h4>Inovação e Infraestrutura</h4>
+                <p>Aproxima engenharia de prompts e ferramentas web leves da realidade das escolas e estudantes.</p>
+              </article>
+
+              <article class="ods-card ods-10">
+                <span class="ods-num">ODS 10 • ONU</span>
+                <h4>Redução das Desigualdades</h4>
+                <p>Compartilha métodos estruturados de estudo sem barreiras de acesso para quem estuda por conta própria.</p>
+              </article>
+
+              <article class="ods-card ods-12">
+                <span class="ods-num">ODS 12 • ONU</span>
+                <h4>Consumo Responsável</h4>
+                <p>Valoriza ferramentas digitais duráveis e evita desperdício de material impresso.</p>
+              </article>
+            </div>
+
+            <!-- Caixa de Contribuição -->
+            <div class="suggest-box">
+              <h4>Tem ideia de um prompt que salvou sua matéria?</h4>
+              <p>Escreva sua sugestão abaixo e copie formatada para mandar para a equipe ou compartilhar com sua turma:</p>
+              <div class="suggest-form">
+                <input type="text" id="suggestInput" placeholder="Ex: Prompt para treinar análise sintática passo a passo..." aria-label="Sugestão de prompt" />
+                <button type="button" class="btn btn-primary btn-sm" id="copySuggestionBtn">Copiar ideia</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Rodapé -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>
+        <strong>EstudoIA</strong> — Feito por Matheus Godoy, Leonardo Bueno e Kauã Eduardo
+        <p>Use a tecnologia para pensar melhor, nunca para pensar menos.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#topo">Voltar ao topo ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Aviso Flutuante -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
